@@ -66,11 +66,38 @@ p {
   padding-top: 9px;
   font-weight: bold;
   font-style: italic;
+  &:hover {
+    color: silver !important;
+  }
 }
 
 #logo:hover {
   color: #fff;
   text-decoration: none;
+}
+
+li .header_list {
+  color: white !important;
+  font-weight: bold;
+  &:hover {
+    color: silver !important;
+  }
+}
+
+.dropdown-header {
+  background-color: #dcdcdc;
+}
+
+.dropdown-toggle {
+  color: white !important;
+  font-weight: bold;
+  &:hover {
+    color: silver !important;
+  }
+}
+
+#dropdown_title {
+  background-color: teal !important;
 }
 
 /* デバッグウインドウ */
