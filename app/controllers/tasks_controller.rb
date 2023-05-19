@@ -1,12 +1,12 @@
 class TasksController < ApplicationController
-  
+  before_action :set_user, only: [:show, :edit, :update]
+ 
   def index
     @user = User.find(params[:user_id])
     @tasks = @user.tasks
   end
   
   def show
-    @user = User.find(params[:user_id])
     @task = @user.tasks.find_by(id: params[:id])
   end
   
@@ -14,8 +14,9 @@ class TasksController < ApplicationController
     @user = User.find(params[:user_id])
     @task = Task.new
   end
-  
+    
   def create
+     @user = User.find(params[:user_id])
      @task = @user.tasks.build(task_params)
     if @task.save
       flash[:success] = "タスクが作成されました" 
@@ -26,12 +27,10 @@ class TasksController < ApplicationController
   end
   
   def edit
-    @user = User.find(params[:user_id])
     @tasks = @user.tasks
   end
   
   def update
-     @task = Task.find(params[:id])
      if @task.update_attributes(task_params)
        flash[:success] = "タスクの情報を更新しました。"
        redirect_to user_tasks_url
@@ -51,5 +50,9 @@ class TasksController < ApplicationController
   
   def task_params
     params.require(:task).permit(:name, :description)
+  end
+  
+  def set_user
+    @user = User.find(params[:user_id])
   end
 end
