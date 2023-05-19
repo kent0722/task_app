@@ -7,23 +7,23 @@
       <tbody>
         <tr>
           <th class="show-list col-md-3"><%= Task.human_attribute_name :id %></th>
-          <td><%= @user %></td>
+          <td><%= @task.id %></td>
         </tr>
         <tr>
           <th class="show-list col-md-3"><%= Task.human_attribute_name :name %></th>
-          <td><%= @user %></td>
+          <td><%= @user.name %></td>
         </tr>
         <tr>
-          <th class="show-list"><%= Task.human_attribute_name :ted %></th>
+          <th class="show-list"><%= Task.human_attribute_name :description %></th>
           <td><%= "" %></td>
         </tr>
         <tr>
           <th class="show-list"><%= Task.human_attribute_name :create_at %></th>
-          <td><%= l(@user.created_at, format: :long) %></td>
+          <td><%= l(@task.created_at, format: :long) %></td>
         </tr>
         <tr>
           <th class="show-list"><%= Task.human_attribute_name :update_at %></th>
-          <td><%= l(@user.updated_at, format: :long) %></td>
+          <td><%= l(@task.updated_at, format: :long) %></td>
         </tr>
       </tbody>
     </table>

@@ -7,7 +7,7 @@ class TasksController < ApplicationController
   
   def show
     @user = User.find(params[:user_id])
-    @task = Task.all
+    @task = @user.tasks.find_by(id: params[:id])
   end
   
   def new
@@ -16,13 +16,18 @@ class TasksController < ApplicationController
   end
   
   def create
-    @task = Task.new(task_params)
-    @task.save
-    redirect_to user_tasks_url
+     @task = @user.tasks.build(task_params)
+    if @task.save
+      flash[:success] = "タスクが作成されました" 
+      redirect_to user_tasks_url(@user) 
+    else
+      render :new, locals: { user: @user }
+    end
   end
   
   def edit
     @user = User.find(params[:user_id])
+    @tasks = @user.tasks
   end
   
   def update
@@ -36,11 +41,15 @@ class TasksController < ApplicationController
   end
   
   def destroy
+    @task = Task.find(params[:id])
+    @task.destroy
+    flash[:success] = "タスクが削除されました"
+    redirect_to user_tasks_url
   end
   
   private
   
   def task_params
-    params.require(:taks).permit(:name, :description)
+    params.require(:task).permit(:name, :description)
   end
 end
