@@ -1,6 +1,21 @@
 <% provide(:title, "Edit Task") %>
 
 <h1>タスク編集</h1>
+<div class="raw">
+  <div class="col-md-6 col-md-offset-1">
+    <%= form_with(scope: :session, edit_user_task_path(@user) do |f| %>form_with %>
+       
+      <%= f.label :name, class: "label-name" %>
+      <%= f.label_field :name %>
+    
+    <% end %>
+  </div>
+</div>
+
+
+
+
+<h1>タスク編集</h1>
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
     <%= form_tag edit_user_task_path do  %>
@@ -9,8 +24,8 @@
         <input type="name" name="name" class="form-control">
         <label style=" margin-top: 6px;">詳細</label>
         <textarea type="text" class="form-control" rows="5"></textarea>
-        <%= link_to "更新", "", class:"btn btn-primary", style: "margin-top: 10px;" %>
-        <%= link_to "キャンセル", user_tasks_path, class:"btn btn-default", style: "margin-top: 10px;" %>
+        <%= link_to "更新", user_tasks_path(@user), class:"btn btn-primary", style: "margin-top: 10px;" %>
+        <%= link_to "キャンセル", user_task_path(@user), class:"btn btn-default", style: "margin-top: 10px;" %>
       </div>
     <% end %>
   </div>
