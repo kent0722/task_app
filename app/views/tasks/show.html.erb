@@ -11,18 +11,18 @@
         </tr>
         <tr>
           <th class="show-list col-md-3"><%= Task.human_attribute_name :name %></th>
-          <td><%= @user.name %></td>
+          <td><%= @task.name %></td>
         </tr>
         <tr>
           <th class="show-list"><%= Task.human_attribute_name :description %></th>
-          <td><%= "" %></td>
+          <td><%= @task.description %></td>
         </tr>
         <tr>
-          <th class="show-list"><%= Task.human_attribute_name :create_at %></th>
+          <th class="show-list"><%= Task.human_attribute_name :created_at %></th>
           <td><%= l(@task.created_at, format: :long) %></td>
         </tr>
         <tr>
-          <th class="show-list"><%= Task.human_attribute_name :update_at %></th>
+          <th class="show-list"><%= Task.human_attribute_name :updated_at %></th>
           <td><%= l(@task.updated_at, format: :long) %></td>
         </tr>
       </tbody>

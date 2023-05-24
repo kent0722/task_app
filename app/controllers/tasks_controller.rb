@@ -1,5 +1,4 @@
 class TasksController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update]
  
   def index
     @user = User.find(params[:user_id])
@@ -7,7 +6,8 @@ class TasksController < ApplicationController
   end
   
   def show
-    @task = @user.tasks.find_by(id: params[:id])
+    @user = User.find(params[:user_id])
+    @task = @user.tasks.find(params[:id])
   end
   
   def new
@@ -16,27 +16,30 @@ class TasksController < ApplicationController
   end
     
   def create
-     @user = User.find(params[:user_id])
+    @user = User.find(params[:user_id])
      @task = @user.tasks.build(task_params)
     if @task.save
       flash[:success] = "タスクが作成されました" 
       redirect_to user_tasks_url(@user) 
     else
-      render :new, locals: { user: @user }
+      render :new
     end
   end
   
   def edit
-    @tasks = @user.tasks
+    @user = User.find(params[:user_id])
+    @task = @user.tasks.find(params[:id])
   end
   
   def update
-     if @task.update_attributes(task_params)
-       flash[:success] = "タスクの情報を更新しました。"
-       redirect_to user_tasks_url
-     else
-       render :edit
-     end
+    @user = User.find(params[:user_id])
+    @task = @user.tasks.find_by(id: params[:id])
+    if @task.update(task_params)
+      flash[:success] = "タスクの情報を更新しました。"
+      redirect_to user_tasks_url(@user)
+    else
+      render :edit
+    end
   end
   
   def destroy
@@ -50,9 +53,5 @@ class TasksController < ApplicationController
   
   def task_params
     params.require(:task).permit(:name, :description)
-  end
-  
-  def set_user
-    @user = User.find(params[:user_id])
   end
 end
