@@ -17,7 +17,7 @@
       </thead> 
       
       <tbody>
-        <% @tasks.each do |task| %>
+        <% @tasks.reverse.each do |task| %>
           <tr>
              <td><%= link_to task.name, user_task_path(@user, task), id: "task-name" %></td>
              <td><%= l(task.created_at, format: :long) %></td>
