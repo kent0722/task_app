@@ -32,4 +32,8 @@ class User < ApplicationRecord
   def forget
     update_attribute(:remember_digest, nil)
   end
+  
+  def linkify_text(text)
+    auto_link_urls(text, html: { target: '_blank' })
+  end
 end

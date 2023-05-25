@@ -1,22 +1,21 @@
 class TasksController < ApplicationController
+  before_action :set_task, only: [:index, :show, :new, :create, :edit, :update]
+  before_action :logged_in_user
+  before_action :correct_user
  
   def index
-    @user = User.find(params[:user_id])
     @tasks = @user.tasks
   end
   
   def show
-    @user = User.find(params[:user_id])
     @task = @user.tasks.find(params[:id])
   end
   
   def new
-    @user = User.find(params[:user_id])
     @task = Task.new
   end
     
   def create
-    @user = User.find(params[:user_id])
      @task = @user.tasks.build(task_params)
     if @task.save
       flash[:success] = "タスクが作成されました" 
@@ -27,12 +26,10 @@ class TasksController < ApplicationController
   end
   
   def edit
-    @user = User.find(params[:user_id])
     @task = @user.tasks.find(params[:id])
   end
   
   def update
-    @user = User.find(params[:user_id])
     @task = @user.tasks.find_by(id: params[:id])
     if @task.update(task_params)
       flash[:success] = "タスクの情報を更新しました。"
@@ -53,5 +50,21 @@ class TasksController < ApplicationController
   
   def task_params
     params.require(:task).permit(:name, :description)
+  end
+  
+  def set_task
+    @user = User.find(params[:user_id])
+  end
+  
+  def logged_in_user
+    unless logged_in?
+      store_location
+      flash[:danger] = "ログインしてください。"
+      redirect_to login_url
+    end
+  end
+  
+  def correct_user
+    redirect_to(root_url) unless @user == current_user
   end
 end
