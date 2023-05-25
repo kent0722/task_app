@@ -55,6 +55,12 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
     end
     
+    def redirect_if_logged_in
+      if logged_in?
+        redirect_to user_path(current_user), notice: "すでにログインしています"
+      end
+    end
+    
     # ログイン済みのユーザーか確認。
     def logged_in_user
       unless logged_in?

@@ -1,7 +1,13 @@
 class SessionsController < ApplicationController
-  
+
+  # ログインページの表示
   def new
+    if logged_in?
+      flash[:info] = 'すでにログインしています'
+      redirect_to user_path(current_user)
+    end
   end
+
   
   def create
     user = User.find_by(email: params[:session][:email].downcase)
@@ -20,4 +26,4 @@ class SessionsController < ApplicationController
     flash[:success] = 'ログアウトしました。'
     redirect_to root_url
   end
-end
+end 
