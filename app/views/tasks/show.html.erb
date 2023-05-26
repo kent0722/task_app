@@ -15,7 +15,7 @@
         </tr>
         <tr>
           <th class="show-list"><%= Task.human_attribute_name :description %></th>
-          <td><%= auto_link(@task.description) %></td>
+          <td><%= simple_format(auto_link(@task.description)) %></td>
         </tr>
         <tr>
           <th class="show-list"><%= Task.human_attribute_name :created_at %></th>

@@ -13,7 +13,12 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = User.new
+    if logged_in?
+      flash[:info] = "すでにログインしています。"
+      redirect_to user_path(current_user)
+    else
+      @user = User.new
+    end
   end
   
   def create
@@ -31,7 +36,7 @@ class UsersController < ApplicationController
   end
   
   def update
-   if @user.update_attributes(user_params)
+   if @user.update_attributes(user_params) 
     flash[:success] = "ユーザー情報を更新しました。"
     redirect_to @user
    else
@@ -55,12 +60,6 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
     end
     
-    def redirect_if_logged_in
-      if logged_in?
-        redirect_to user_path(current_user), notice: "すでにログインしています"
-      end
-    end
-    
     # ログイン済みのユーザーか確認。
     def logged_in_user
       unless logged_in?
@@ -72,12 +71,16 @@ class UsersController < ApplicationController
     
     # アクセスしたユーザーが現在ログインしているユーザーか確認。
     def correct_user
-      redirect_to root_url unless current_user?(@user)
+      unless current_user?(@user)
+      redirect_to root_url 
+      end
     end
     
     # システム管理権限所有かどうか判定。
     def admin_user
-      redirect_to root_url unless current_user.admin?
+      unless current_user.admin?
+      redirect_to root_url
+      end
     end
     
     # 管理権限者、または現在ログインしているユーザーの許可。

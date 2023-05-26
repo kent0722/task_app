@@ -7,10 +7,10 @@
       <%= render 'shared/error_messages', object: @task %>
        
       <%= f.label :name, class: "label-name" %>
-      <%= f.text_field :name, class: 'form-control' %>
+      <%= f.text_field :name, class: 'form-control', value: @task.name %>
       
       <%= f.label :description, class: "label-name" %>
-      <%= f.text_area :description, rows: 5, class: 'form-control' %>
+      <%= f.text_area :description, rows: 5, class: 'form-control', value: @task.description %>
     
       <%= f.submit "更新", class:"btn btn-primary", style: "margin-top: 10px;" %>
       <%= link_to "キャンセル", user_tasks_path(@user), class:"btn btn-default", style: "margin-top: 10px;" %>

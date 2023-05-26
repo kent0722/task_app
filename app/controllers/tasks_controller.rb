@@ -1,14 +1,14 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:index, :show, :new, :create, :edit, :update]
+  before_action :set_user
+  before_action :set_task, only: [:show, :edit, :destroy]
   before_action :logged_in_user
-  before_action :correct_user
+  before_action :admin_or_correct_user, only: [:update, :destroy]
  
   def index
     @tasks = @user.tasks
   end
   
   def show
-    @task = @user.tasks.find(params[:id])
   end
   
   def new
@@ -26,7 +26,6 @@ class TasksController < ApplicationController
   end
   
   def edit
-    @task = @user.tasks.find(params[:id])
   end
   
   def update
@@ -40,10 +39,9 @@ class TasksController < ApplicationController
   end
   
   def destroy
-    @task = Task.find(params[:id])
     @task.destroy
-    flash[:success] = "タスクが削除されました"
-    redirect_to user_tasks_url
+    flash[:success] = "タスクを削除しました。"
+    redirect_to user_tasks_url @user
   end
   
   private
@@ -52,8 +50,12 @@ class TasksController < ApplicationController
     params.require(:task).permit(:name, :description)
   end
   
-  def set_task
+  def set_user
     @user = User.find(params[:user_id])
+  end
+  
+  def set_task
+    @task = @user.tasks.find(params[:id])
   end
   
   def logged_in_user
@@ -64,7 +66,11 @@ class TasksController < ApplicationController
     end
   end
   
-  def correct_user
-    redirect_to(root_url) unless @user == current_user
+  def admin_or_correct_user
+     @user = User.find(params[:user_id]) if @user.blank?
+     unless current_user?(@user) || current_user.admin?
+      flash[:danger] = "権限がありません。"
+      redirect_to user_tasks_path(@user)
+     end
   end
 end
