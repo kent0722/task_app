@@ -16,3 +16,13 @@ User.create!( name: "管理者",
                password_confirmation: password)
 end
 
+
+Task.create!(name: "タスク",
+             description: "テスト詳細")
+
+50.times do |n|
+  name  = "タスク#{n+1}"
+  description = "テスト詳細#{n+1}"
+  Task.create!(name: name,
+               descrioption: description)
+end
